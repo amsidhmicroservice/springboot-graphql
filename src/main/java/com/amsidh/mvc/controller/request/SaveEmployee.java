@@ -1,4 +1,4 @@
-package com.amsidh.mvc.graphql.resolver.mutation;
+package com.amsidh.mvc.controller.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
