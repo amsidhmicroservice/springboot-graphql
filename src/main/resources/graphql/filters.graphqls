@@ -1,0 +1,18 @@
+input FilterCriteria {
+    key: String!
+    filterInput: FilterInput
+}
+
+input FilterInput {
+    filterType: FilterType!
+    filterValues: [String]!
+}
+enum  FilterType {
+    eq
+    nq
+    contains
+    notContains
+    gte
+    lte
+    eqIgnoreCase
+}
