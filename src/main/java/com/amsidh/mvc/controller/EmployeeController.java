@@ -4,8 +4,7 @@ import com.amsidh.mvc.controller.request.SaveEmployee;
 import com.amsidh.mvc.entity.Employee;
 import com.amsidh.mvc.graphql.filters.FilterCriteria;
 import com.amsidh.mvc.graphql.filters.SortBy;
-import com.amsidh.mvc.graphql.resolver.MasterDataResolver;
-import com.amsidh.mvc.repository.EmployeeRepository;
+import com.amsidh.mvc.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -18,21 +17,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @Slf4j
-public class EmployeeController implements MasterDataResolver {
+public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
     @QueryMapping
-    public List<Employee> searchEmployee(@Argument(name = "filterCriteria") List<FilterCriteria> filterCriteria,
-                                         @Argument(name = "") int offset,
-                                         @Argument(name = "limit") int limit,
-                                         @Argument(name = "sortBy") SortBy sortBy) {
-        return getData(employeeRepository, filterCriteria, offset, limit, "employee", Employee.class, sortBy);
+    public List<? extends Employee> searchEmployee(@Argument List<FilterCriteria> filterCriteria,
+                                         @Argument int offset,
+                                         @Argument int limit,
+                                         @Argument SortBy sortBy) {
+        return employeeService.findEmployees(filterCriteria, offset, limit, List.of(sortBy));
     }
 
     @MutationMapping
     public Employee saveEmployee(@Argument(name = "saveEmployee") SaveEmployee saveEmployee) {
         Employee employee = Employee.builder().name(saveEmployee.getName()).emailId(saveEmployee.getEmailId()).build();
-        return employeeRepository.save(employee);
+        return employeeService.saveEmployee(employee);
     }
 }

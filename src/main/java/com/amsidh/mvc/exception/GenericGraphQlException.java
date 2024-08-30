@@ -4,10 +4,12 @@ import graphql.ErrorClassification;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class GenericGraphQlException extends RuntimeException implements GraphQLError {
     private String message;
     private String key;
